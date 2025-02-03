@@ -1,0 +1,94 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.bg-warning {
+    background-color: #fffacd !important;
+}
+
+.bg-yellow {
+    background-color: #ffeb3b;
+}
+
+.bg-pink {
+    background-color: #ff69b4;
+}
+
+.header .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.header .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.text-white:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .bg-yellow .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+
+.hero-section {
+    background: url('background.jpg') no-repeat center center/cover;
+    color: #333;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    color: #ff6600;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.hero-icons img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+}
+
+
+footer {
+    background-color: #fffacd;
+}
+
+footer h6 {
+    font-size: 16px;
+}
+
+footer a {
+    font-size: 14px;
+}
+
+footer hr {
+    border-top: 1px solid 
+}
+
+@media (max-width: 768px) {
+    footer {
+        text-align: center;
+    }
+
+    footer .row > div {
+        margin-bottom: 20px;
+    }
+}
