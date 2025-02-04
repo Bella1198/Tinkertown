@@ -228,11 +228,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <!-- <th class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </th> -->
+                                            
                                             <th>Name</th>
                                             <th>Decsription</th>
                                             <th>Status</th>
@@ -244,11 +240,7 @@
 
                                         <%for(let i=0;i< data.length;i++){%>
                                             <tr>
-                                                <!-- <td class="text-center">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" />
-                                                    </div>
-                                                </td> -->
+                                                
                                                 <td><b><%=data[i].name%></b></td>
                                                 <td><%=data[i].description%></td>      
                                                 <td>
@@ -259,27 +251,23 @@
                                                 <td>
                                                     <div class="form-check form-switch">
                                                         <%if(data[i].isListed){%>
-                                                            <button class="btn btn-danger evented" data-id="<%=data[i]._id%>" data-list="unlist">Unlist</button>
+                                                            <button class="btn btn-danger evented" data-id="<%=data[i]._id%>" onclick="listUnlist()" data-list="unlist" id="unlistButton" onclick="switchButton(this)">Unlist</button>
                                                         <%}else{%>
-                                                            <button class="btn btn-success evented" data-id="<%=data[i]._id%>" data-list="list">List</button>
+                                                            <button class="btn btn-success evented" data-id="<%=data[i]._id%>" data-list="list" id="listButton" onclick="switchButton(this)">List</button>
                                                             <%}%>
                                                     </div>
                                                 </td>
                                                 
-                                                <!-- <td>1</td> -->
                                                 <td class="text-end">
+
 
                                                     <div class="dropdown">
                                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm" onclick="toggleDropdown()"> <i class="material-icons md-more_horiz"></i> </a>
                                                         <div id="dp-menu" class="dropdown-menu">
-                                                            <!-- <a class="dropdown-item" href="#">View detail</a> -->
                                                             <a class="dropdown-item" href="#">Edit info</a>
                                                             <a class="dropdown-item text-danger" href="#">Delete</a>
                                                         </div>
                                                     </div> 
-
-                                                                                                    
-
                                                     
 
                                                 </td>
@@ -288,158 +276,7 @@
                                             
 
                                             
-                                        <!-- <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>2</td>
-                                            <td><b>Art & Craft</b></td>
-                                            <td>2</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>3</td>
-                                            <td><b>Soft Toys</b></td>
-                                            <td>3</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"><i class="material-icons md-subdirectory_arrow_right text-muted"></i></td>
-                                            <td>4</td>
-                                            <td><b>Puzzles & Games</b></td>
-                                            <td>4</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center"><i class="material-icons md-subdirectory_arrow_right text-muted"></i></td>
-                                            <td>5</td>
-                                            <td><b>Sports & Board Games </b></td>
-                                            <td>5</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>6</td>
-                                            <td><b>Stem Toys</b></td>
-                                            <td>6</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>7</td>
-                                            <td><b>Indoor & Outdoor Activities</b></td>
-                                            <td>7</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>8</td>
-                                            <td><b>Baby First Toy</b></td>
-                                            <td>8</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
-                                            <td>9</td>
-                                            <td><b>Figures & Collectibles </b></td>
-                                            <td>9</td>
-                                            <td class="text-end">
-                                                <div class="dropdown">
-                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">View detail</a>
-                                                        <a class="dropdown-item" href="#">Edit info</a>
-                                                        <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                    </div>
-                                                </div> 
-                                            </td>
-                                        </tr> -->
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -469,6 +306,40 @@
         const menu = document.getElementById('dp-menu');
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
+
+
+
+    
+    // <button id="listButton" onclick="switchButton(this)">List</button>
+
+function switchButton(button) {
+  // Create a new button element
+  const newButton = document.createElement("button");
+
+  // Set the text and click handler for the new button
+  if (button.innerText === "List") {
+    newButton.innerText = "Unlist";
+  } else {
+    newButton.innerText = "List";
+  }
+
+  // Copy the click function from the old button
+  newButton.setAttribute("onclick", "switchButton(this)");
+
+  // Replace the old button with the new one
+  button.replaceWith(newButton);
+}
+</script>
+
+
+
+
+
+
+
+        <!-- function listUnlist(){
+            
+        } -->
 
     </script>
 
