@@ -14,7 +14,8 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
-    <link href="/evara-backend/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="assets/css/main.css" rel="stylesheet" type="text/css" /> -->
+    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -35,7 +36,7 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item has-submenu active">
+                <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
@@ -43,7 +44,7 @@
                         <a href="page-products-list.html">Product List</a>
                         <a href="page-products-grid.html">Product grid</a>
                         <a href="page-products-grid-2.html">Product grid 2</a>
-                        <a href="page-categories.html" class="active">Categories</a>
+                        <a href="page-categories.html">Categories</a>
                     </div>
                 </li>
                 <li class="menu-item has-submenu">
@@ -68,12 +69,12 @@
                         <a href="page-seller-detail.html">Seller profile</a>
                     </div>
                 </li>
-                <li class="menu-item has-submenu">
+                <li class="menu-item has-submenu active">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
                     </a>
                     <div class="submenu">
-                        <a href="page-form-product-1.html">Add product 1</a>
+                        <a href="page-form-product-1.html" class="active">Add product 1</a>
                         <a href="page-form-product-2.html">Add product 2</a>
                         <a href="page-form-product-3.html">Add product 3</a>
                         <a href="page-form-product-4.html">Add product 4</a>
@@ -191,120 +192,38 @@
             </div>
         </header>
         <section class="content-main">
-            <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Categories </h2>
-                    <!-- <p>Add, edit or delete a category</p> -->
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div>
+                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                            <button class="btn btn-md rounded font-sm hover-up">Publich</button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <a href="/admin/addCategory" class="btn btn-sm font-sm rounded btn-brand">Add Category</a>
-                    <!-- <input type="text" placeholder="Search Categories" class="form-control bg-white"> -->
-                </div>
-            </div>
-            <div >
-                <div >
-                    <div >
-
-
-                        <!-- <div class="col-md-3">
-                            <form method="post" action="/admin/categories">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
                                 <div class="mb-4">
-                                    <label for="product_name" class="form-label">Name</label>
-                                    <input type="text" name="name" placeholder="Type here" class="form-control" id="product_name" />
+                                    <label for="product_name" class="form-label">Product title</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="product_name">
                                 </div>
-                                
                                 <div class="mb-4">
-                                    <label class="form-label">Description</label>
-                                    <textarea name="description" placeholder="Type here" class="form-control"></textarea>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Create category</button>
+                                    <label class="form-label">Full description</label>
+                                    <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
                                 </div>
                             </form>
-                        </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-
-                        <div class="col-md-14 card mb-4">
-                            <div >
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            
-                                            <th>Name</th>
-                                            <th>Decsription</th>
-                                            <th>Status</th>
-                                            <th>List/Unlist</th>
-                                            <th class="text-end">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <%for(let i=0;i< data.length;i++){%>
-                                            <tr>
-                                                
-                                                <td><b><%=data[i].name%></b></td>
-                                                <td><%=data[i].description%></td>      
-                                                <td>
-                                                    <span id="listedID" class="badge rounded pill <%= data[i].isListed ? 'alert-success' : 'alert-danger' %>" data-id="<%=data[i]._id%>">
-                                                        <%= data[i].isListed ? 'Listed' : 'Unlisted' %>
-                                                    </span>
-                                                </td>
-
-                                                <td>
-                                                    <div class="form-check form-switch">
-                                                        <% if (data[i].isListed) { %>
-                                                            <button class="btn btn-danger evented" data-id="<%= data[i]._id %>" data-list="unlist" onclick="switchButton(this)">Unlist</button>
-                                                        <% } else { %>
-                                                            <button class="btn btn-success evented" data-id="<%= data[i]._id %>" data-list="list" onclick="switchButton(this)">List</button>
-                                                        <% } %>
-                                                    </div>
-                                                </td>
-
-
-                                                <!-- <td>
-                                                    <div class="form-check form-switch">
-                                                        <%if(data[i].isListed){%>
-                                                            <button class="btn btn-danger evented" data-id="<%=data[i]._id%>" onclick="listUnlist()" data-list="unlist" id="unlistButton" onclick="switchButton(this)">Unlist</button>
-                                                        <%}else{%>
-                                                            <button class="btn btn-success evented" data-id="<%=data[i]._id%>" data-list="list" id="listButton" onclick="switchButton(this)">List</button>
-                                                            <%}%>
-                                                    </div>
-                                                </td> -->
-
-                                                    <!-- <div class="dropdown">
-                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm" onclick="toggleDropdown()"> <i class="material-icons md-more_horiz"></i> </a>
-                                                        <div id="dp-menu" class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">Edit info</a>
-                                                            <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                        </div>
-                                                    </div>  -->
-
-                                                <td class="text-end">
-                                                    <div>
-                                                        <button class="btn btn-sm font-sm rounded btn-brand">
-                                                            <i class="material-icons md-edit"></i> Edit
-                                                        </button>
-                                                        <button class="btn btn-sm font-sm btn-light rounded">
-                                                            <i class="material-icons md-delete_forever"></i> Delete
-                                                        </button>
-                                                        
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <%}%>
-                                            
-
-                                            
-                                       
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> <!-- .col// -->
-                    </div> <!-- .row // -->
-                </div> <!-- card body .// -->
-            </div> <!-- card .// -->
-        </section> <!-- content-main end// -->
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
@@ -320,65 +239,26 @@
             </div>
         </footer>
     </main>
-
-    <script>
-        function toggleDropdown() {
-        const menu = document.getElementById('dp-menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function switchButton(button) {
-    const isUnlist = button.innerText === "Unlist";
-    const statusSpan = button.closest('tr').querySelector('span');
-
-    // Toggle the button text and class
-    button.innerText = isUnlist ? "List" : "Unlist";
-    button.classList.toggle("btn-danger", !isUnlist);
-    button.classList.toggle("btn-success", isUnlist);
-
-    // Toggle the status text and class
-    statusSpan.innerText = isUnlist ? "Unlisted" : "Listed";
-    statusSpan.classList.toggle("alert-danger", isUnlist);
-    statusSpan.classList.toggle("alert-success", !isUnlist);
-
-    // Optionally, add code here to handle the list/unlist action, e.g., send an AJAX request to the server to update the item status
-}
-
-
-// function switchButton(button) {
-//     // Toggle the button text
-//     if (button.innerText === "List") {
-//         button.innerText = "Unlist";
-//         button.classList.remove("btn-success");
-//         button.classList.add("btn-danger");
-//     } else {
-//         button.innerText = "List";
-//         button.classList.remove("btn-danger");
-//         button.classList.add("btn-success");
-//     }
-
-//     // Optionally, you can add code here to handle the list/unlist action
-//     // e.g., send an AJAX request to the server to update the item status
-// }
-
-
-</script>
-
-
-
-       
-
-    </script>
-
-    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <!-- <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="assets/js/vendors/select2.min.js"></script>
     <script src="assets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script> -->
     <!-- Main Script -->
-    <script src="assets/js/main.js" type="text/javascript"></script>
-   
-      
+    <!-- <script src="assets/js/main.js" type="text/javascript"></script> -->
+
+
+
+    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/vendors/select2.min.js"></script>
+    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+
+    <script src="/assets/js/main.js" type="text/javascript"></script>
+
 </body>
 
 </html>
+
+                        

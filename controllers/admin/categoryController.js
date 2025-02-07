@@ -40,6 +40,17 @@ console.log("hi",data)
     }
 }
 
+const getAddCategory=async(req,res)=>{
+    try {
+
+        res.render("addCategory")
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server error")
+    }
+}
+
 
 const addCategory = async(req,res)=>{
     try {
@@ -85,5 +96,6 @@ const listOrUnlist = async(req,res)=>{
 module.exports={
     categoryList,
     addCategory,
-    listOrUnlist
+    listOrUnlist,
+    getAddCategory
 }

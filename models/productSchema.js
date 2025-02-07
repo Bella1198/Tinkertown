@@ -1,5 +1,5 @@
-const mongoose=require(",ongoose")
-const Schema = mongoose
+const mongoose=require("mongoose")
+const {Schema} = mongoose
 
 const productSchema=new Schema({
     productName:{
@@ -10,15 +10,15 @@ const productSchema=new Schema({
         type:String,
         required:true
     },
-    brand:{
-        type:String,
-        required:true
-    },
-    category:{
-        type:Schema.Types.ObjectId,
-        ref:"Category",
-        required:true
-    },
+    // brand:{
+    //     type:String,
+    //     required:true
+    // },
+    // category:{
+    //     type:Schema.Types.ObjectId,
+    //     ref:"Category",
+    //     required:true
+    // },
     regularPrice:{
         type:Number,
         required:true
@@ -27,18 +27,18 @@ const productSchema=new Schema({
         type:Number,
         required:true
     },
-    productOffer:{
-        type:Number,
-        default:0
-    },
+    // productOffer:{
+    //     type:Number,
+    //     default:0
+    // },
     quantity:{
         type:Number,
         default:true
     },
-    color:{
-        type:String,
-        required:true
-    },
+    // color:{
+    //     type:String,
+    //     required:true
+    // },
     productImage:{
         type:[String],
         required:true
