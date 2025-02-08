@@ -62,10 +62,27 @@ const addCategory = async(req,res)=>{
         })
 
         await newCategory.save()
-        res.redirect("/admin/categories")
+        res.redirect("category")
         
     } catch (error) {
         console.error("Error in inserting data",error)
+        res.status(500).send("Internal server error")
+    }
+}
+
+const getEdit = async(req,res)=>{
+    try {
+        
+        const catId = req.params.id        
+        const cat = await Category.findById(catId)
+
+        if(!cat){
+            return res.status(404).send("Category not found")
+        }
+
+        res.render('editCategory',{cat})
+
+    } catch (error) {
         res.status(500).send("Internal server error")
     }
 }
@@ -97,5 +114,6 @@ module.exports={
     categoryList,
     addCategory,
     listOrUnlist,
-    getAddCategory
+    getAddCategory,
+    getEdit
 }

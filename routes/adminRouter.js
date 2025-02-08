@@ -18,10 +18,11 @@ router.get("/logout",adminController.logout)
 router.get("/users",adminAuth,customerController.customerInfo)
 
 // Category Management
-router.get("/categories",adminAuth,categoryController.categoryList)
+router.get("/category",adminAuth,categoryController.categoryList)
 router.get("/addCategory",adminAuth,categoryController.getAddCategory)
-router.post("/categories",adminAuth,categoryController.addCategory)
-router.post("/categories",adminAuth,categoryController.listOrUnlist)
+router.post("/category",adminAuth,categoryController.addCategory)
+router.post("/category",adminAuth,categoryController.listOrUnlist)
+router.get("/editCategory/:id",adminAuth,categoryController.getEdit)
 
 //Product Management
 router.get("/products",adminAuth,productController.productList)
