@@ -14,11 +14,11 @@ const productSchema=new Schema({
     //     type:String,
     //     required:true
     // },
-    // category:{
-    //     type:Schema.Types.ObjectId,
-    //     ref:"Category",
-    //     required:true
-    // },
+    category:{
+        type:String,
+        ref:"Category",
+        required:true
+    },
     regularPrice:{
         type:Number,
         required:true
@@ -41,16 +41,16 @@ const productSchema=new Schema({
     // },
     productImage:{
         type:[String],
-        required:true
+        // required:true
     },
-    isBlocked:{
+    isListed:{
         type:Boolean,
         default:false
     },
     status:{
         type:String,
         enum:["Available","Out of stock","Discontinued"],
-        required:true,
+        // required:true,
         default:"Available"
     }
 },{timestamps:true})

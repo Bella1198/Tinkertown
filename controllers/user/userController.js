@@ -74,9 +74,11 @@ const loadSignup = async(req,res)=>{
         const {user}= req.session
 
         if(user){
-            res.redirect('/')
+            return res.redirect('/')
         }
-        return res.render("signup")
+        const errormsg  = req.session.signupErrmsg;
+        req.session.signupErrmsg = ''
+        return res.render("signup", {message:errormsg})
         
     } catch (error) {
         
@@ -101,7 +103,8 @@ const signup = async(req,res)=>{
     const findUser= await User.findOne({email})
 
     if(findUser){
-        return res.render("signup",{message:"User with this email already exists"})
+        req.session.signupErrmsg="User with this email already exists"
+        return res.redirect("/signup")
     }
 
     const otp = generateOtp()

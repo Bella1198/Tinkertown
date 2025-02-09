@@ -1,0 +1,66 @@
+<%-include('../partials/admin/header')%>
+
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form action="/admin/addProduct" method="post">
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Product title</label>
+                                    <input type="text" placeholder="Type here" class="form-control" name="productName" id="product_name">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Regular price</label>
+                                            <div class="row gx-2">
+                                                <input type="text" class="form-control" name="regularPrice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Sale price</label>
+                                            <input  type="text" class="form-control" name="salePrice">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="form-label">Stock</label>
+                                        <input type="text" class="form-control" id="product_name" name="quantity">
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Category</label>
+                                    <input type="text" class="form-control" id="product_name" name="category">
+                                    <!-- <select class="form-select">
+                                        <option> USD </option>
+                                        <option> EUR </option>
+                                        <option> RUBL </option>
+                                    </select> -->
+                                </div>
+                                <div class="input-upload">
+                                    <img src="assets/imgs/theme/upload.svg" alt="">
+                                    <input class="form-control" type="file">
+                                </div>
+                                <div class="col-lg-4">
+                                    <button type="submit" class="btn btn-md rounded font-sm hover-up">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </section> <!-- content-main end// -->
+        <%-include('../partials/admin/footer')%>

@@ -202,19 +202,23 @@
                     <div class="card mb-4">
                         
                         <div class="card-body">
-                            <form>
+                            <form action="/admin/addCategory" method="post">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Category</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="product_name">
+                                    <input type="text" placeholder="Type here" class="form-control" name="name" id="product_name">
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" rows="4"></textarea>
+                                    <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
+                                </div>
+                                <%if(typeof message!=="undefined"){%>
+                                    <p class="text-danger"><%= message%></p>
+                                    <%}%>
+                                <div>
+                                    <button type="submit" class="btn btn-md rounded font-sm hover-up">Save</button>
                                 </div>
                             </form>
-                            <div>
-                                <button class="btn btn-md rounded font-sm hover-up">Save</button>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

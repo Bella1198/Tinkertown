@@ -14,7 +14,7 @@ const categorySchema=new mongoose.Schema({
     },
     isListed:{
         type:Boolean,
-        default:true
+        default:false
     },
     // categoryOffer:{
     //     type:Number,

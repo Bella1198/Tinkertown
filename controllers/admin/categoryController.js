@@ -17,8 +17,6 @@ const categoryList = async(req,res)=>{
         const data = await Category.find({
            
         })
-        .limit(limit*1)
-        .skip((page-1)*limit)
         .exec()
 console.log("hi",data)
         const count = await Category.find({
@@ -43,7 +41,9 @@ console.log("hi",data)
 const getAddCategory=async(req,res)=>{
     try {
 
-        res.render("addCategory")
+        const err = req.session.errMsg
+        req.session.errMsg=''
+        return res.render("addCategory",{message:err})
         
     } catch (error) {
         console.log(error);
@@ -57,12 +57,18 @@ const addCategory = async(req,res)=>{
         const {name,description}=req.body
         console.log(req.body)
 
+        const findCat=await Category.findOne({name})
+        if(findCat){
+            req.session.errMsg = "Category already exists"
+            return res.redirect("/admin/addCategory")
+        }
+
         const newCategory = new Category({
             name,description
         })
 
         await newCategory.save()
-        res.redirect("category")
+        return res.redirect("/admin/category")
         
     } catch (error) {
         console.error("Error in inserting data",error)
@@ -87,18 +93,40 @@ const getEdit = async(req,res)=>{
     }
 }
 
+const editCategory = async(req,res)=>{
+    try {
+        const {name,description}=req.body
+        const catId = req.params.id
+        console.log(req.body);
+
+        
+        if(!name||!description){
+            return res.status(400).send("Name and description are required")
+        } 
+
+        await Category.findByIdAndUpdate(catId,{name,description})
+        res.redirect('/admin/category')
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("An error occurred while updating the category.");
+    }
+}
+
 const listOrUnlist = async(req,res)=>{
     try {
 
-        const {name,isListed} =req.body
+        const {catId,status} =req.body
         console.log(req.body);
 
-        const category = await Category.findById(name)
+        const isListed = status=="unlist"?false:true
+
+        const category = await Category.findById(catId)
         if(!category){
             return res.status(404).json({success:false,message:"Category not found"})
         }
 
-        await Category.updateOne({_id:name},{isListed})
+        await Category.updateOne({_id:catId},{$set:{isListed:isListed}})
 
         res.status(200).json({success:true,message:"Status updated"})
         
@@ -115,5 +143,6 @@ module.exports={
     addCategory,
     listOrUnlist,
     getAddCategory,
-    getEdit
+    getEdit,
+    editCategory
 }
