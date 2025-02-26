@@ -1,0 +1,122 @@
+<%-include("../partials/user/header")%>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+
+.swiper-container {
+            width: 100%;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+        }
+        .swiper-slide img:hover {
+            transform: scale(1.5);
+            transform-origin: center;
+        }
+        .product-info {
+            margin-top: 40px;
+            padding: 20px;
+        }
+        .product-info h2 {
+            color: teal;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+        .product-info p {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #008080;
+            margin-bottom: 25px;
+        }
+        .sale-price {
+            text-decoration: line-through;
+            color: gray;
+            margin-right: 15px;
+        }
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .cart-controls button {
+            background: teal;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .cart-controls button:hover {
+            background: #006666;
+        }
+        .cart-count {
+            font-size: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="swiper-container swiper">
+            <div class="swiper-wrapper">
+                <% product.productImage.forEach(function(image) { %>
+                    <div class="swiper-slide">
+                        <img src="<%= image %>" alt="<%= product.productName %>">
+                    </div>
+                <% }); %>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        
+        <div class="product-info">
+            <h2><%= product.productName %></h2>
+            <p><%= product.description %></p>
+            <p class="price">
+                <span class="sale-price">₹<%= product.regularPrice %></span> ₹<%= product.salePrice %>
+            </p>
+            <p>Category: <strong><%= product.category %></strong></p>
+            <p>Status: <strong><%= product.status %></strong></p>
+            <div class="cart-controls">
+                <button onclick="decrementCount()">-</button>
+                <span id="cart-count" class="cart-count">1</span>
+                <button onclick="incrementCount()">+</button>
+                <button>Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper', {
+            loop: true,
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        });
+
+        let count = 1;
+        function incrementCount() {
+            count++;
+            document.getElementById('cart-count').innerText = count;
+        }
+        function decrementCount() {
+            if (count > 1) {
+                count--;
+                document.getElementById('cart-count').innerText = count;
+            }
+        }
+    </script>
+    <%-include("../partials/user/footer")%>

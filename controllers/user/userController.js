@@ -1,4 +1,6 @@
 const User=require("../../models/userSchema")
+const Product=require("../../models/productSchema")
+const Category = require("../../models/categorySchema")
 const env=require("dotenv").config()
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
@@ -9,14 +11,16 @@ const loadHomePage = async(req,res)=>{
 
         const userId = req.session.user;
         console.log(userId);
-        
+        const product = await Product.find({})
+        // console.log('edrftghhhhhhhhhh0',product)
+        console.log('userrrrrrrrrrr',req.session.user)
         if(!userId){
-         return res.render('home',{user:null})
+         return res.render('home',{user:null,product})
     }
     const findUser = await User.findOne({_id:userId});
     console.log(findUser);
     
-    res.render("home",{user:findUser})
+    res.render("home",{user:findUser,product})
      
         
     } catch (error) {
@@ -47,7 +51,7 @@ const login = async(req,res)=>{
                 if(isMatch){
 
                     console.log("Passwords match!")
-
+                    req.session.userData = user;
                     req.session.user =user._id;
 
                     res.redirect("/")
@@ -283,7 +287,60 @@ const pageNotFound = async(req,res)=>{
     }
 }
 
+// const singleProduct = async(req,res)=>{
+//     try {
+//         res.render("user/singleProduct")
+        
+//     } catch (error) {
+//         console.error(error)
+//         res.status(500).json({success:false,message:"Internal server error"})
+//     }
+// }
 
+const singleProduct = async(req,res)=>{
+    try {
+            const user=req.session.user
+       
+        const proId = req.params.id        
+        const pro = await Product.findById(proId).populate('category')
+        console.log(pro)
+        const related = await Product.find({category:pro.category._id,_id:{$ne:pro._id}}).limit(4)
+        console.log(related);
+        res.render('newSingle',{user,product:pro,related})
+
+    } catch (error) {
+        res.status(500).send("Internal server error")
+        console.log(error);
+        
+    }
+}
+
+ // const proId = req.params.id        
+        // const pro = await Product.findById(proId)
+
+        // if(!pro){
+        //     return res.status(404).send("Page not found")
+        // }
+
+        // res.render('singleProduct',{pro})
+
+const loadSamplePage = async(req,res)=>{
+    try{
+        
+        res.render("sample", { age:23423})
+    }catch(err){
+        console.log(err)
+    }
+}
+
+const newSingle = async(req,res)=>{
+    try {
+        res.render("newSingle",{user:null})
+    } catch (error) {
+        res.status(500).send("Internal server error")
+
+    }
+}
 module.exports={
     loadHomePage,
     loadSignup,
@@ -293,5 +350,9 @@ module.exports={
     logout,
     resendOTP,
     login,
-    loadLogin   
+    loadLogin,
+    singleProduct   ,
+    loadSamplePage,
+    newSingle
+
 }

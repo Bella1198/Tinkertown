@@ -22,7 +22,7 @@ const userSchema = new Schema({
     googleId:{
         type:Object,
         sparse:true,
-        unique:true
+        // unique:true
     },
     password:{
         type:String,
@@ -48,37 +48,37 @@ const userSchema = new Schema({
     //     type: Schema.Types.ObjectId,
     //     ref:"Wishlist"
     // }],
-    orderHistory:[{
-        type: Schema.Types.ObjectId,
-        ref:"Order"
-    }],
-    createdOn:{
-        type: Date,
-        default:Date.now
-    },
-    referalCode:{
-        type:String
-    },
-    redeemed:{
-        type:Boolean
-    },
-    redeemedUsers:{
-        type:Schema.Types.ObjectId,
-        ref:"User"
-    },
-    searchHistory:[{
-        category:{
-            type:Schema.Types.ObjectId,
-            ref:"Category"
-        },
-        brand:{
-            type:String
-        },
-        searchOn:{
-            type:Date,
-            default:Date.now
-        }
-    }]
+    // orderHistory:[{
+    //     type: Schema.Types.ObjectId,
+    //     ref:"Order"
+    // }],
+    // createdOn:{
+    //     type: Date,
+    //     default:Date.now
+    // },
+    // referalCode:{
+    //     type:String
+    // },
+    // redeemed:{
+    //     type:Boolean
+    // },
+    // redeemedUsers:{
+    //     type:Schema.Types.ObjectId,
+    //     ref:"User"
+    // },
+    // searchHistory:[{
+    //     category:{
+    //         type:Schema.Types.ObjectId,
+    //         ref:"Category"
+    //     },
+    //     brand:{
+    //         type:String
+    //     },
+    //     searchOn:{
+    //         type:Date,
+    //         default:Date.now
+    //     }
+    // }]
 
 })
 

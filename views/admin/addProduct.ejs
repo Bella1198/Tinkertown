@@ -1,66 +1,255 @@
-<%-include('../partials/admin/header')%>
+<%- include('../partials/admin/header') %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
 
-
-        <section class="content-main">
-            <div class="row">
-                <div class="col-9">
-                    <div class="content-header">
-                        <h2 class="content-title">Add New Product</h2>
-                        
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <form action="/admin/addProduct" method="post">
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Product title</label>
-                                    <input type="text" placeholder="Type here" class="form-control" name="productName" id="product_name">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Regular price</label>
-                                            <div class="row gx-2">
-                                                <input type="text" class="form-control" name="regularPrice">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Sale price</label>
-                                            <input  type="text" class="form-control" name="salePrice">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <label class="form-label">Stock</label>
-                                        <input type="text" class="form-control" id="product_name" name="quantity">
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Category</label>
-                                    <input type="text" class="form-control" id="product_name" name="category">
-                                    <!-- <select class="form-select">
-                                        <option> USD </option>
-                                        <option> EUR </option>
-                                        <option> RUBL </option>
-                                    </select> -->
-                                </div>
-                                <div class="input-upload">
-                                    <img src="assets/imgs/theme/upload.svg" alt="">
-                                    <input class="form-control" type="file">
-                                </div>
-                                <div class="col-lg-4">
-                                    <button type="submit" class="btn btn-md rounded font-sm hover-up">Save</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div> <!-- card end// -->
-                </div>
+<section class="content-main">
+  <div class="row">
+    <div class="col-9">
+      <div class="content-header">
+        <h2 class="content-title">Add New Product</h2>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="product_name" class="form-label">Product title</label>
+              <input type="text" placeholder="Type here" class="form-control" name="productName" id="product_name">
             </div>
-        </section> <!-- content-main end// -->
-        <%-include('../partials/admin/footer')%>
+            <div class="mb-4">
+              <label class="form-label">Description</label>
+              <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label">Regular price</label>
+                  <input type="text" class="form-control" name="regularPrice">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label">Sale price</label>
+                  <input type="text" class="form-control" name="salePrice">
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="form-label">Stock</label>
+                <input type="text" class="form-control" name="quantity">
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Category</label>
+              <select class="form-select" name="category">
+                <% for (let i = 0; i < cat.length; i++) { %>
+                  <option value="<%= cat[i]._id %>"><%= cat[i].name %></option>
+                <% } %>
+              </select>
+            </div>
+            <div class="mb-4">
+              <button type="button" class="btn btn-primary" id="add-image-btn">Add Image</button>
+            </div>
+            <div id="image-preview-container" class="mb-4"></div>
+            <div id="hidden-inputs"></div>
+            <div class="col-lg-4">
+              <button type="submit" class="btn btn-md rounded font-sm hover-up">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let images = [];
+    const addImageBtn = document.getElementById('add-image-btn');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    const hiddenInputs = document.getElementById('hidden-inputs');
+
+    addImageBtn.addEventListener('click', function () {
+      if (images.length >= 4) {
+        alert('You can add up to 4 images only.');
+        return;
+      }
+
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.click();
+
+      input.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const modal = document.createElement('div');
+            modal.classList.add('modal', 'fade', 'show');
+            modal.style.display = 'block';
+            modal.innerHTML = `
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <img id="cropper-image" src="${e.target.result}" style="max-width: 100%;">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-crop">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-crop">Crop</button>
+                  </div>
+                </div>
+              </div>`;
+            document.body.appendChild(modal);
+
+            const cropper = new Cropper(modal.querySelector('#cropper-image'), { aspectRatio: 1, viewMode: 2 });
+
+            modal.querySelector('#cancel-crop').addEventListener('click', function () {
+              document.body.removeChild(modal);
+            });
+
+            modal.querySelector('#confirm-crop').addEventListener('click', function () {
+              cropper.getCroppedCanvas().toBlob(blob => {
+                images.push(blob);
+                updateImagePreview();
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'file';
+                hiddenInput.name = 'productImages';
+                hiddenInput.files = createFileList(blob, `image_${images.length}.jpg`);
+                hiddenInputs.appendChild(hiddenInput);
+              }, 'image/jpeg');
+              document.body.removeChild(modal);
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+
+    function updateImagePreview() {
+      imagePreviewContainer.innerHTML = '';
+      images.forEach((blob, index) => {
+        const url = URL.createObjectURL(blob);
+        const imgElem = document.createElement('img');
+        imgElem.src = url;
+        imgElem.style.maxWidth = '100px';
+        imgElem.style.margin = '5px';
+        imagePreviewContainer.appendChild(imgElem);
+      });
+    }
+
+    function createFileList(file, filename) {
+      const dataTransfer = new DataTransfer();
+      const newFile = new File([file], filename, { type: file.type });
+      dataTransfer.items.add(newFile);
+      return dataTransfer.files;
+    }
+  });
+</script>
+<!-- <script>
+document.addEventListener("DOMContentLoaded", function () {
+  let images = [];
+  const addImageBtn = document.getElementById('add-image-btn');
+  const imagePreviewContainer = document.getElementById('image-preview-container');
+  const hiddenInputs = document.getElementById('hidden-inputs');
+
+  addImageBtn.addEventListener('click', function () {
+      if (images.length >= 4) {
+          alert('You can add up to 4 images only.');
+          return;
+      }
+
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.click();
+
+      input.addEventListener('change', function (event) {
+          const file = event.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                  // Create Bootstrap modal properly
+                  const modal = document.createElement('div');
+                  modal.classList.add('modal', 'fade');
+                  modal.innerHTML = `
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-body">
+                                  <img id="cropper-image" src="${e.target.result}" style="max-width: 100%;">
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="button" class="btn btn-primary" id="confirm-crop">Crop</button>
+                              </div>
+                          </div>
+                      </div>`;
+
+                  document.body.appendChild(modal);
+                  const bootstrapModal = new bootstrap.Modal(modal);
+                  bootstrapModal.show();
+
+                  // Initialize Cropper.js
+                  const cropper = new Cropper(modal.querySelector('#cropper-image'), {
+                      aspectRatio: 1,
+                      viewMode: 2
+                  });
+
+                  // Cancel Crop Event
+                  modal.querySelector('.btn-secondary').addEventListener('click', function () {
+                      bootstrapModal.hide();
+                      setTimeout(() => modal.remove(), 300);
+                  });
+
+                  // Confirm Crop Event
+                  modal.querySelector('#confirm-crop').addEventListener('click', function () {
+                      cropper.getCroppedCanvas().toBlob(blob => {
+                          images.push(blob);
+                          updateImagePreview();
+
+                          // Create a hidden input for form submission
+                          const hiddenInput = document.createElement('input');
+                          hiddenInput.type = 'hidden';
+                          hiddenInput.name = 'productImages'; 
+                          hiddenInput.value = URL.createObjectURL(blob);
+                          hiddenInputs.appendChild(hiddenInput);
+
+                          bootstrapModal.hide();
+                          setTimeout(() => modal.remove(), 300);
+                      }, 'image/jpeg');
+                  });
+              };
+              reader.readAsDataURL(file);
+          }
+      });
+  });
+
+  function updateImagePreview() {
+      imagePreviewContainer.innerHTML = '';
+      images.forEach((blob, index) => {
+          const url = URL.createObjectURL(blob);
+          const imgElem = document.createElement('img');
+          imgElem.src = url;
+          imgElem.style.maxWidth = '100px';
+          imgElem.style.margin = '5px';
+
+          // Remove image functionality
+          const removeBtn = document.createElement('button');
+          removeBtn.textContent = "X";
+          removeBtn.style.marginLeft = '5px';
+          removeBtn.addEventListener('click', function () {
+              images.splice(index, 1);
+              URL.revokeObjectURL(url); // Free up memory
+              updateImagePreview();
+          });
+
+          const wrapper = document.createElement('div');
+          wrapper.appendChild(imgElem);
+          wrapper.appendChild(removeBtn);
+          imagePreviewContainer.appendChild(wrapper);
+      });
+  }
+});
+</script> -->
+
+<%- include('../partials/admin/footer') %>

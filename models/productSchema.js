@@ -17,7 +17,8 @@ const productSchema=new Schema({
     category:{
         type:String,
         ref:"Category",
-        required:true
+        required:true,
+        unique:true
     },
     regularPrice:{
         type:Number,
@@ -41,11 +42,15 @@ const productSchema=new Schema({
     // },
     productImage:{
         type:[String],
-        // required:true
+        required:true
     },
+    // croppedImage:{
+    //     type:[String],
+    //     required:true
+    // },
     isListed:{
         type:Boolean,
-        default:false
+        default:true
     },
     status:{
         type:String,

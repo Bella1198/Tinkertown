@@ -4606,3 +4606,36 @@ box-sizing: border-box;
 height: 243px;
 width: 608px;
 }
+
+.pro {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.pro img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Edit Product Image upload */
+.image-container {
+  display: inline-block;
+  position: relative;
+  margin: 5px;
+}
+.delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
