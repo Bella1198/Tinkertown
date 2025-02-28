@@ -54,21 +54,28 @@ const getAddCategory=async(req,res)=>{
 
 const addCategory = async(req,res)=>{
     try {
-        const {name,description}=req.body
+        const {category,description}=req.body
         console.log(req.body)
 
-        const findCat=await Category.findOne({name})
+        if(!category || !description){
+            console.log("no data");
+            return res.render("addCategory",{message:"Please fill all the fields"})            
+        }
+
+        const findCat=await Category.findOne({name:category})
+
         if(findCat){
             req.session.errMsg = "Category already exists"
             return res.redirect("/admin/addCategory")
         }
 
         const newCategory = new Category({
-            name,description
+            name:category,description
         })
 
         await newCategory.save()
         return res.redirect("/admin/category")
+
         
     } catch (error) {
         console.error("Error in inserting data",error)

@@ -4,9 +4,8 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
-                    <span></span> Fashion
-                    <span></span> Abstract Print Patchwork Dress
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Product Details
                 </div>
             </div>
         </div>
@@ -55,7 +54,14 @@
                                         <h2 class="title-detail"><%= product.productName %></h2>
                                         <div class="product-detail-rating">
                                             <div class="pro-details-brand">
-                                                <span> Category: <a href="#"><%=product.category.name%></a></span>
+                                                <span> Category: <%=product.category.name%></span>
+                                            </div>
+                                            <div class="pro-details-brand">
+                                                <%if(product.quantity!==0){%>
+                                                    <span class="text-success"> Stock: <%=product.quantity%></span>
+                                                <%}else if(message){%>
+                                                    <span class="text-danger"><%=message%></span>
+                                                <%}%>
                                             </div>
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">

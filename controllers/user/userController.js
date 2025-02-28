@@ -4,6 +4,7 @@ const Category = require("../../models/categorySchema")
 const env=require("dotenv").config()
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
+const { log } = require("console")
 
 
 const loadHomePage = async(req,res)=>{
@@ -11,16 +12,17 @@ const loadHomePage = async(req,res)=>{
 
         const userId = req.session.user;
         console.log(userId);
-        const product = await Product.find({})
-        // console.log('edrftghhhhhhhhhh0',product)
-        console.log('userrrrrrrrrrr',req.session.user)
+        const product = await Product.find({isListed:true}).populate("category")
+        console.log("products", product)
+        const final = product.filter(pro=> pro.category && pro.category.isListed)
+        console.log("final", final)
         if(!userId){
-         return res.render('home',{user:null,product})
-    }
+         return res.render('home',{user:null,product:final})
+        }
     const findUser = await User.findOne({_id:userId});
     console.log(findUser);
     
-    res.render("home",{user:findUser,product})
+    res.render("home",{user:findUser,product:final})
      
         
     } catch (error) {
@@ -42,11 +44,23 @@ const login = async(req,res)=>{
 
         const user = await User.findOne({email})
         console.log(user);
+
+        if (!email || !password) {
+            return res.render("login",{mess:"Please fill all the fields"})
+        }
         
+        if(!user){
+            return res.render("login",{message:"User doesn't exist"})
+        }
 
         if(user){
 
+            console.log("pass",password);
+            console.log("user",user.password);
+
             const isMatch = await bcrypt.compare(password,user.password)
+            console.log(password);
+            
 
                 if(isMatch){
 
@@ -58,9 +72,9 @@ const login = async(req,res)=>{
 
                 }else{
 
+                    // res.render("login",{message:"User doesn't exist"})
                     res.status(401).send("Invalid credentials")
                     console.log("Passwords do not match");
-                    
                 }
         }
         
@@ -87,7 +101,8 @@ const loadSignup = async(req,res)=>{
     } catch (error) {
         
         console.log("Home page not loading:",error);
-        res.status(500).send("Server Error")
+        res.status(500).redirect("/pageNotFound")
+
         
     }
 }
@@ -303,10 +318,20 @@ const singleProduct = async(req,res)=>{
        
         const proId = req.params.id        
         const pro = await Product.findById(proId).populate('category')
-        console.log(pro)
+        console.log("pro",{pro})
+
         const related = await Product.find({category:pro.category._id,_id:{$ne:pro._id}}).limit(4)
         console.log(related);
-        res.render('newSingle',{user,product:pro,related})
+
+        let message=null
+
+        console.log("quantity",pro.quantity);   
+        if(pro.quantity==0){
+            message="Out of Stock"
+            // res.render("newSingle",{message:"Out of Stock",user,product:pro,related})
+        }
+
+        res.render('newSingle',{user,product:pro,related,message})
 
     } catch (error) {
         res.status(500).send("Internal server error")
@@ -341,6 +366,18 @@ const newSingle = async(req,res)=>{
 
     }
 }
+
+// const list = async(req,res)=>{
+//     try {
+//         const pro = await Product.find({quantity:7})
+//         console.log(pro);
+        
+//         res.render("list",{pro})
+//     } catch (error) {
+//         res.status(500).send("Internal server error")
+//     }
+// }
+
 module.exports={
     loadHomePage,
     loadSignup,
@@ -353,6 +390,6 @@ module.exports={
     loadLogin,
     singleProduct   ,
     loadSamplePage,
-    newSingle
-
+    newSingle,
+    // list
 }

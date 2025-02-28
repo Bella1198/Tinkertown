@@ -45,11 +45,15 @@ const productList = async (req, res) => {
 const getAddProduct = async (req, res) => {
     try {
 
-        const cat = await Category.find({ isListed: true })
+        const cat = await Category.find({ isListed: true })        
 
-        const err = req.session.errMsg
+        // const err = req.session.errMsg
+        // req.session.errMsg = ''
+        // return res.render("addProduct",{mess:err})
+
+        const error = req.session.errMsg
         req.session.errMsg = ''
-        return res.render("addProduct", { message: err, cat })
+        return res.render("addProduct", { message: error, cat })
 
 
     } catch (error) {
@@ -60,15 +64,37 @@ const getAddProduct = async (req, res) => {
 
 const AddProduct = async (req, res) => {
     try {
+        const categories = await Category.find()
+        
         const { productName, description, category, regularPrice, salePrice, quantity } = req.body
+
+        let message=""
+        let mess=""
+
+        if(!productName || !description || !category || !regularPrice || !salePrice || !quantity){
+            message="Please fill all the fields"           
+        }
+
+        const parsedRegularPrice = Number(regularPrice);
+        const parsedSalePrice = Number(salePrice);
+        const parsedQuantity = Number(quantity)
+
+        if((isNaN(parsedRegularPrice)) || (isNaN(parsedSalePrice)) || (isNaN(parsedQuantity))){
+            // console.log("no data");
+            mess="Please enter a number"         
+        }
+
+        if(message||mess){
+            return res.render("addProduct",{message,mess,cat:categories})
+        }
         
         console.log("Files:", req.files);
         console.log("Category:", req.body.category);
 
         const findPro = await Product.findOne({ productName })
         if (findPro) {
-            req.session.errMsg = "Product already exists"
-            return res.redirect("/admin/addProduct")
+            // req.session.errMsg = "Product already exists"
+            return res.render("addProduct",{message:"Product already exists",cat:categories})
         }
         
 
@@ -87,7 +113,7 @@ const AddProduct = async (req, res) => {
 
 
     } catch (error) {
-        console.error("Error in inserting data", error)
+        console.error("Errrrrrrrrrrrrrrrrrrr", error)
         res.status(500).send("Internal server error")
     }
 }

@@ -2,10 +2,11 @@ const express=require("express")
 const router = express.Router()
 const userController = require("../controllers/user/userController")
 const passport = require("passport")
+const {userAuth} = require("../middlewares/auth")
 
 
 router.get("/",userController.loadHomePage)
-router.get("/singleProduct/:id",userController.singleProduct)
+router.get("/singleProduct/:id",userAuth,userController.singleProduct)
 router.get("/signup",userController.loadSignup)
 router.get("/pageNotFound",userController.pageNotFound)
 router.post("/signup",userController.signup)
@@ -14,6 +15,7 @@ router.post("/resendOTP",userController.resendOTP)
 router.get("/login",userController.loadLogin)
 router.post("/login",userController.login)
 router.get("/logout",userController.logout)
+// router.get("/list",userController.list)
 
 
 router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}))

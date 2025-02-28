@@ -12,18 +12,19 @@
                     <div class="card mb-4">
                         
                         <div class="card-body">
-                            <form action="/admin/addCategory" method="post">
+                            <form action="/admin/addCategory" method="post" id="addCategory">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Category</label>
-                                    <input type="text" placeholder="Type here" class="form-control" name="name" id="product_name">
+                                    <input type="text" placeholder="Type here" class="form-control" name="category" id="category">
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
-                                    <textarea placeholder="Type here" class="form-control" name="description" rows="4"></textarea>
+                                    <textarea placeholder="Type here" class="form-control" id="description" name="description" rows="4"></textarea>
                                 </div>
-                                <%if(typeof message!=="undefined"){%>
+                                <%if(message){%>
                                     <p class="text-danger"><%= message%></p>
                                     <%}%>
+                                    <span id="error" class="text-danger"></span>
                                 <div>
                                     <button type="submit" class="btn btn-md rounded font-sm hover-up">Save</button>
                                 </div>
@@ -34,5 +35,6 @@
                 </div>
             </div>
         </section>
+
 
         <%-include('../partials/admin/footer')%>

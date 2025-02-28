@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <header class="header-area header-style-5">
+    <!-- <header class="header-area header-style-5">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
                 <div class="row align-items-center">
@@ -61,11 +61,11 @@
         </div>
         <div class="header-bottom sticky-bar sticky-white-bg">
             <div class="container">
-                <div class="header-wrap header-space-between position-relative">
+                <div class="header-wrap header-space-between position-relative"> -->
                     <!-- <div class="logo logo-width-1">
                         <a href="index.html"><img src="assets/imgs/theme/logo.svg" alt="logo"></a>
                     </div> -->
-                    <div class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
+                    <!-- <div class="main-menu main-menu-grow main-menu-padding-1 main-menu-lh-1 main-menu-mrg-1 hm3-menu-padding d-none d-lg-block hover-boder">
                         <nav>
                             <ul>
                                 <li><a class="active" href="index.html">Home <i class="fi-rs-angle-down"></i></a>
@@ -268,8 +268,10 @@
                 </div>
             </div>
         </div>
-    </header>
-    <div class="mobile-header-active mobile-header-wrapper-style">
+    </header> -->
+
+    
+    <!-- <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
                 <div class="mobile-header-logo">
@@ -307,9 +309,9 @@
                                 <li><a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- mobile menu start -->
-                    <nav>
+                    <!-- <nav>
                         <ul class="mobile-menu">
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="index.html">Home</a>
                                 <ul class="dropdown">
@@ -404,9 +406,9 @@
                                 </ul>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> -->
                     <!-- mobile menu end -->
-                </div>
+                <!-- </div>
                 <div class="mobile-header-info-wrap mobile-header-border">
                     <div class="single-mobile-header-info mt-30">
                         <a  href="page-contact.html"> Our location </a>
@@ -428,7 +430,7 @@
                 </div>
             </div>
         </div> 
-    </div>  
+    </div>   -->
 
 
 
@@ -447,13 +449,6 @@
                 <div class="row">
                     <div class="col-lg-10 m-auto">
                         <div class="row">
-
-
-
-
-
-
-
                             <div class="col-lg-1"></div>
 
 
@@ -468,29 +463,8 @@
                                         <p class="mb-50 font-sm">
                                             Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy
                                         </p>
+
                                         <form method="post" onsubmit="login(event)">
-                                            <!-- <div class="form-group">
-                                                <input type="text" required="" id="name" name="name" placeholder="Username">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" required="" id="email" name="email" placeholder="Email">
-                                            </div>
-                                            <span id="emailError"></span>
-                                            <div class="form-group">
-                                                <input type="text" required="" id="phone" name="phone" placeholder="Phone number">
-                                            </div>
-                                            <div class="form-group">
-                                                <input required="" type="password" id="password" name="password" placeholder="Password">
-                                            </div>
-                                            <span id="passError"></span>
-                                            <div class="form-group">
-                                                <input required="" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
-                                                <span id="confirmError"></span>
-                                            </div>
-                                            <% if(typeof message!=="undefined"){ %>              
-                                                 <p class="text-danger"><%=message%></p>
-                                            <%}%>
-                                            <span id="error"></span> -->
 
                                                 <div class="form-group">
                                                     <input type="text" id="name" name="name" placeholder="Username">
@@ -544,23 +518,20 @@
                             let passError = document.getElementById('passError');
                             let confirmError = document.getElementById('confirmError');
 
-                            function login(event) {
+                        function login(event) {
                             let isValid = true;
                             
-                            // Clear all previous error messages
                             error.innerHTML = "";
                             emailError.innerHTML = "";
                             passError.innerHTML = "";
                             confirmError.innerHTML = "";
                             
-                            // Check if all required fields are filled
                             if (name.value === "" || email.value === "" || phone.value === "" || password.value === "" || confirmPassword.value === "") {
                                 error.innerHTML = 'All fields must be filled';
                                 error.style.color = "red";
                                 isValid = false;
                             }
 
-                            // Validate email format
                             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                             if (email.value !== '' && !emailPattern.test(email.value)) {
                                 emailError.innerHTML = 'Please enter a valid email address';
@@ -568,25 +539,22 @@
                                 isValid = false;
                             }
 
-                            // Validate password length
                             if (password.value !== '' && password.value.length < 8) {
                                 passError.innerHTML = 'Password must be at least 8 characters long';
                                 passError.style.color = "red";
                                 isValid = false;
                             }
                             
-                            // Validate that passwords match
                             if (password.value !== confirmPassword.value) {
                                 confirmError.innerHTML = 'Passwords do not match';
                                 confirmError.style.color = "red";
                                 isValid = false;
                             }
 
-                            // Prevent form submission if validation fails
                             if (!isValid) {
                                 event.preventDefault();
                             }
-                            }
+                        }
 
                         </script>
                             
@@ -606,7 +574,7 @@
 
 
 
-    <footer class="main">
+    <!-- <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
             <div class="container">
                 <div class="row align-items-center">
@@ -621,14 +589,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-5"> -->
                         <!-- Subscribe Form -->
-                         <form class="form-subcriber d-flex wow fadeIn animated">
+                         <!-- <form class="form-subcriber d-flex wow fadeIn animated">
                             <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
                             <button class="btn bg-dark text-white" type="submit">Subscribe</button>
-                        </form>
+                        </form> -->
                          <!-- End Subscribe Form -->
-                    </div>
+                    <!-- </div>
                 </div>
             </div>
         </section> 
@@ -716,8 +684,8 @@
                 </div>
             </div>
         </div>
-    </footer>
-     Preloader Start -->
+    </footer> -->
+     <!-- Preloader Start -->
      <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">

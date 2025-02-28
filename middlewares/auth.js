@@ -19,20 +19,58 @@ const userAuth = (req,res,next)=>{
     }   
 }
 
+const adminAuth = (req, res, next) => {
+    if (req.session.admin) {
+        User.findById(req.session.admin)
+            .then(data => {
+                if (data && data.isAdmin) {
+                    next();
+                } else {
+                    res.redirect("/admin/adminLogin");
+                }
+            })
+            .catch(error => {
+                console.log("Error in admin auth middleware", error);
+                res.status(500).send("Internal server error");
+            });
+    } else {
+        res.redirect("/admin/adminLogin");
+    }
+};
 
-const adminAuth = (req,res,next)=>{
-    User.findOne({isAdmin:true})
-    .then(data=>{
-        if(data){
-            next()
-        }else{
-            res.redirect("/admin/adminLogin")
-        }
-    })
-    .catch(error=>{
-        console.log("Error in adminauth middleware",error);
-        res.status(500).send("Internal server error")
-    })
-}
+// const adminAuth = (req, res, next) => {
+//     if (req.session.admin) {
+//         User.findById(req.session.admin)
+//             .then(data => {
+//                 if (data && data.isAdmin) {
+//                     next();
+//                 } else {
+//                     res.redirect("/admin/adminLogin");
+//                 }
+//             })
+//             .catch(error => {
+//                 console.log("Error in admin auth middleware", error);
+//                 res.status(500).send("Internal server error");
+//             });
+//     } else {
+//         res.redirect("/admin/adminLogin");
+//     }
+// };
+
+
+// const adminAuth = (req,res,next)=>{
+//     User.findOne({isAdmin:true})
+//     .then(data=>{
+//         if(data){
+//             next()
+//         }else{
+//             res.redirect("/admin/adminLogin")
+//         }
+//     })
+//     .catch(error=>{
+//         console.log("Error in adminauth middleware",error);
+//         res.status(500).send("Internal server error")
+//     })
+// }
 
 module.exports={userAuth,adminAuth}
