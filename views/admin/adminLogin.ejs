@@ -81,6 +81,9 @@
                                 <span class="form-check-label">Remember</span>
                             </label>
                         </div> <!-- form-group form-check .// -->
+                        <%if(typeof message!=="undefined" && message){%>
+                            <span class="text-danger"><%=message%></span>
+                            <%}%>
                         <div class="mb-4">
                             <button type="submit" class="btn btn-primary w-100"> Login </button>
                         </div> <!-- form-group// -->

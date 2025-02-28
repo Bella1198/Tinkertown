@@ -7,7 +7,7 @@ const loadLogin = async (req,res)=>{
 
     try {
 
-        res.render("adminLogin")
+        res.render("adminLogin",{message:""})
         
     } catch (error) {
 
@@ -22,26 +22,38 @@ const login = async(req,res)=>{
 
         const {email,password} = req.body
         console.log(req.body)
+
         const admin = await User.findOne({email})
         console.log(admin);
 
+        if (!admin) {
+            return res.render("adminLogin", { message: "Invalid credentials" });
+        }
+
             const isMatch = await bcrypt.compare(password,admin.password)
             console.log(isMatch);
-            
-                if(isMatch){
 
-                    console.log("Passwords match!")
 
-                    req.session.admin =admin._id;
+                if(!isMatch){
+                    res.render("adminLogin",{message:"Invalid credentials"})
+                }
+
+                req.session.admin =admin._id;
 
                     res.redirect("/admin/dashboard")
+            
+                // if(isMatch){
 
-                }else{
+                //     console.log("Passwords match!")
 
-                    res.status(401).send("Invalid credentials")
-                    console.log("Passwords do not match");
                     
-                }
+
+                // }else{
+
+                //     res.status(401).send("Invalid credentials")
+                //     console.log("Passwords do not match");
+                    
+                // }
         }
         
         catch (error) {
