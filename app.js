@@ -8,6 +8,7 @@ const passport= require("./config/passport")
 const db = require("./config/db")
 const userRouter=require("./routes/userRouter")
 const adminRouter= require("./routes/adminRouter")
+const uploadRoute = require('./routes/uploadRoute');
 db()
 
 app.use(express.urlencoded({extended:true}))
@@ -39,6 +40,11 @@ app.use(express.static('public'))
 app.use("/",userRouter)
 app.use("/admin",adminRouter)
 
+// Middleware to serve static files
+app.use('/uploads', express.static('public/uploads'));
+
+// Use the upload route
+app.use('/api', uploadRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log("Server running")
