@@ -15,7 +15,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/main.css?v=3.4">
-   
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
 </head>
 
@@ -184,13 +184,14 @@
                                         <li><a href="#"><img src="assets/imgs/theme/flag-ru.png" alt="">Pусский</a></li>
                                     </ul>
                                 </li>
-                            </ul>
-                            <ul> -->
+                            </ul> -->
+                            <ul> 
                                 <% if(user){ %>
+                                    <li><i class="material-icons">account_circle</i><a href="userProfile">Profile</a></li>        
                                     <li><i class="fi-rs-user"></i><a href="logout">Logout</a></li>
                                 <% }else{ %>
-                                    <li><i class="fi-rs-user"></i><a href="login">Log In</a></li>
-                                    <li><i class="fi-rs-user"></i><a href="signup">Sign Up</a></li>
+                                    <li><i ></i><a href="login">Log In</a></li>
+                                    <li><i ></i><a href="signup">Sign Up</a></li>
                                 <% }%> 
                             </ul>
                         </div>

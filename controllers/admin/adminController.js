@@ -21,17 +21,14 @@ const login = async(req,res)=>{
     try {
 
         const {email,password} = req.body
-        console.log(req.body)
 
         const admin = await User.findOne({email})
-        console.log(admin);
 
         if (!admin) {
             return res.render("adminLogin", { message: "Invalid credentials" });
         }
 
             const isMatch = await bcrypt.compare(password,admin.password)
-            console.log(isMatch);
 
 
                 if(!isMatch){
@@ -42,18 +39,6 @@ const login = async(req,res)=>{
 
                     res.redirect("/admin/dashboard")
             
-                // if(isMatch){
-
-                //     console.log("Passwords match!")
-
-                    
-
-                // }else{
-
-                //     res.status(401).send("Invalid credentials")
-                //     console.log("Passwords do not match");
-                    
-                // }
         }
         
         catch (error) {

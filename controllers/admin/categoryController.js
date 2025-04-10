@@ -18,7 +18,6 @@ const categoryList = async(req,res)=>{
            
         })
         .exec()
-console.log("hi",data)
         const count = await Category.find({
 
             isAdmin:false,
@@ -55,10 +54,8 @@ const getAddCategory=async(req,res)=>{
 const addCategory = async(req,res)=>{
     try {
         const {category,description}=req.body
-        console.log(req.body)
 
         if(!category || !description){
-            console.log("no data");
             return res.render("addCategory",{message:"Please fill all the fields"})            
         }
 
@@ -101,10 +98,9 @@ const getEdit = async(req,res)=>{
 }
 
 const editCategory = async(req,res)=>{
-    try {
+    try {   
         const {name,description}=req.body
         const catId = req.params.id
-        console.log(req.body);
 
         
         if(!name||!description){
@@ -124,7 +120,6 @@ const listOrUnlist = async(req,res)=>{
     try {
 
         const {catId,status} =req.body
-        console.log(req.body);
 
         const isListed = status=="unlist"?false:true
 

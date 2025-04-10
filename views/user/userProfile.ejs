@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tinkertown</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+    
+    <!-- Template CSS -->
+    <link href="/evara-backend/assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/Dashboard"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Account</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-store"></i>
+                        <span class="text">Address</span>
+                    </a>
+
+            </ul>
+            <hr>
+
+        </nav>
+    </aside>
+    <main class="main-wrap">
+
+        <section class="content-main">
+            <div class="content-header">
+                <h2 class="content-title">Profile setting </h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row gx-5">
+                        
+                        <div class="col-lg-9">
+                            <section class="content-body p-xl-4">
+                                <form action="/userProfile/<%=user._id%>" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+
+
+                                                <div class="col-6  mb-3">
+                                                    <label class="form-label">Name</label>
+                                                    <input class="form-control" type="text" name="name" value="<%=user.name%>">
+                                                </div> <!-- col .// -->
+                                                <div class="col-6  mb-3">
+                                                    <label class="form-label">Phone number</label>
+                                                    <input class="form-control" type="text" name="phone" value="<%=user.phone%>">
+                                                </div>
+
+                                
+                                                <div class="card">
+                                                    <h4>Change password</h4>
+                                                    <div class="card-body">
+                                                        <div class="col-lg-12  mb-3">
+                                                            <label class="form-label">Current password</label>
+                                                            <input class="form-control" type="text" name="password" placeholder="Type here">
+                                                        </div> 
+                                                        <%if(err){%>
+                                                            <p class="text-danger"><%=err%></p>
+                                                            <%}%>
+                                                        <div class="col-lg-12  mb-3">
+                                                            <label class="form-label">New password</label>
+                                                            <input class="form-control" type="text" name="newPass" placeholder="Type here">
+                                                        </div> 
+                                                        <div class="col-lg-12  mb-3">
+                                                            <label class="form-label">Confirm password</label>
+                                                            <input class="form-control" type="text" name="conPass" placeholder="Type here">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div> <!-- row.// -->
+                                        </div> <!-- col.// -->
+
+
+                                        <aside class="col-lg-4">
+                                            <figure class="text-lg-center">
+                                                <img id="image-preview-container" class="img-lg mb-3 img-avatar" src="/evara-backend/assets/imgs/people/avatar1.jpg" alt="User Photo">
+                                                <figcaption>
+                                                    <a id="addImageBtn" class="btn btn-light rounded font-md" href="#">
+                                                        <i class="icons material-icons md-backup font-md"></i> Upload
+                                                    </a>
+                                                </figcaption>
+                                            </figure>
+                                        </aside> 
+
+                                    </div> <!-- row.// -->
+                                    <button class="btn btn-primary" type="submit">Save changes</button>
+                                </form>
+
+
+                                <hr class="my-5">
+                                <div class="row" style="max-width:920px">
+                                    <div class="col-md">
+                                        <article class="box mb-3 bg-light">
+                                            <a class="btn float-end btn-light btn-sm rounded font-md" href="#">Change</a>
+                                            <h6>Password</h6>
+                                            <small class="text-muted d-block" style="width:70%">You can reset or change your password by clicking here</small>
+                                        </article>
+                                    </div> <!-- col.// -->
+                                    <div class="col-md">
+                                        <article class="box mb-3 bg-light">
+                                            <a class="btn float-end btn-light rounded btn-sm font-md" href="#">Deactivate</a>
+                                            <h6>Remove account</h6>
+                                            <small class="text-muted d-block" style="width:70%">Once you delete your account, there is no going back.</small>
+                                        </article>
+                                    </div> <!-- col.// -->
+                                </div> <!-- row.// -->
+                            </section> <!-- content-body .// -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                </div> <!-- card body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addImageBtn = document.getElementById('addImageBtn');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+
+    addImageBtn.addEventListener('click', function () {
+
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.click();
+
+      input.addEventListener('change', function (event) {
+        const file = event.target.files;
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const modal = document.createElement('div');
+            modal.classList.add('modal', 'fade', 'show');
+            modal.style.display = 'block';
+            modal.innerHTML = `
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <img id="cropper-image" src="${e.target.result}" style="max-width: 100%;">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-crop">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-crop">Crop</button>
+                  </div>
+                </div>
+              </div>`;
+            document.body.appendChild(modal);
+
+            const cropper = new Cropper(modal.querySelector('#cropper-image'), { aspectRatio: 1, viewMode: 2 });
+
+            modal.querySelector('#cancel-crop').addEventListener('click', function () {
+              document.body.removeChild(modal);
+            });
+
+            modal.querySelector('#confirm-crop').addEventListener('click', function () {
+              cropper.getCroppedCanvas().toBlob(blob => {
+                images.push(blob);
+                updateImagePreview();
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'file';
+                hiddenInput.name = 'productImages';
+                hiddenInput.files = createFileList(blob, `image_${images.length}.jpg`);
+                hiddenInputs.appendChild(hiddenInput);
+              }, 'image/jpeg');
+              document.body.removeChild(modal);
+            });
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+
+    function updateImagePreview() {
+      imagePreviewContainer.innerHTML = '';
+      images.forEach((blob, index) => {
+        const url = URL.createObjectURL(blob);
+        const imgElem = document.createElement('img');
+        imgElem.src = url;
+        imgElem.style.maxWidth = '100px';
+        imgElem.style.margin = '5px';
+        imagePreviewContainer.appendChild(imgElem);
+      });
+    }
+
+    function createFileList(file, filename) {
+      const dataTransfer = new DataTransfer();
+      const newFile = new File([file], filename, { type: file.type });
+      dataTransfer.items.add(newFile);
+      return dataTransfer.files;
+    }
+  });
+</script>   
+
+
+<%-include("../partials/admin/footer")%>

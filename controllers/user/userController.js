@@ -5,6 +5,8 @@ const env=require("dotenv").config()
 const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
 const { log } = require("console")
+const req = require("express/lib/request")
+const mongoose = require("mongoose")
 
 
 const loadHomePage = async(req,res)=>{
@@ -13,9 +15,7 @@ const loadHomePage = async(req,res)=>{
         const userId = req.session.user;
         console.log(userId);
         const product = await Product.find({isListed:true}).populate("category")
-        console.log("products", product)
         const final = product.filter(pro=> pro.category && pro.category.isListed)
-        console.log("final", final)
         if(!userId){
          return res.render('home',{user:null,product:final})
         }
@@ -302,15 +302,6 @@ const pageNotFound = async(req,res)=>{
     }
 }
 
-// const singleProduct = async(req,res)=>{
-//     try {
-//         res.render("user/singleProduct")
-        
-//     } catch (error) {
-//         console.error(error)
-//         res.status(500).json({success:false,message:"Internal server error"})
-//     }
-// }
 
 const singleProduct = async(req,res)=>{
     try {
@@ -318,7 +309,6 @@ const singleProduct = async(req,res)=>{
        
         const proId = req.params.id        
         const pro = await Product.findById(proId).populate('category')
-        console.log("pro",{pro})
 
         const related = await Product.find({category:pro.category._id,_id:{$ne:pro._id}}).limit(4)
         console.log(related);
@@ -328,7 +318,6 @@ const singleProduct = async(req,res)=>{
         console.log("quantity",pro.quantity);   
         if(pro.quantity==0){
             message="Out of Stock"
-            // res.render("newSingle",{message:"Out of Stock",user,product:pro,related})
         }
 
         res.render('newSingle',{user,product:pro,related,message})
@@ -340,43 +329,103 @@ const singleProduct = async(req,res)=>{
     }
 }
 
- // const proId = req.params.id        
-        // const pro = await Product.findById(proId)
-
-        // if(!pro){
-        //     return res.status(404).send("Page not found")
-        // }
-
-        // res.render('singleProduct',{pro})
-
-const loadSamplePage = async(req,res)=>{
-    try{
-        
-        res.render("sample", { age:23423})
-    }catch(err){
-        console.log(err)
-    }
-}
-
 const newSingle = async(req,res)=>{
     try {
-        res.render("newSingle",{user:null})
+        res.render("newSingle")
     } catch (error) {
         res.status(500).send("Internal server error")
-
     }
 }
 
-// const list = async(req,res)=>{
-//     try {
-//         const pro = await Product.find({quantity:7})
-//         console.log(pro);
+const getUserProfile = async(req,res)=>{
+    try {
         
-//         res.render("list",{pro})
-//     } catch (error) {
-//         res.status(500).send("Internal server error")
-//     }
-// }
+        const userId = req.session.userData._id
+        console.log("user id " + userId)
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ error: "Invalid user ID" });
+        }
+
+        const user =  await User.findById(userId) 
+        if (!user) {
+            return res.redirect("/pageNotFound");
+        }
+
+        const err = req.session.error
+        res.render("userProfile",{user,err}) 
+
+    } catch (error) {
+        res.status(500).send("Internal server error")
+        console.log(error);
+    }
+}
+
+const userProfile = async(req,res)=>{
+
+   try {
+    const {name,phone,password,newPass,conPass} = req.body
+    const userId = req.session.user
+    console.log("userrrrrrrrrrrrrrrrrrrrrr",req.session.user);
+
+    const user= await User.findByIdAndUpdate(userId,{name,phone})    
+
+    if(password){
+
+        console.log("password",password);
+        
+        const isMatch = await bcrypt.compare(password,user.password)
+        console.log(userId.password)
+        if(!isMatch){
+            return res.render("userProfile",{err:"Incorrect password"})
+        }
+        console.log("isMatch",isMatch)
+
+        if(newPass!==conPass){
+            return res.render("userProfile",{err:"Passwords doesn't match"})
+        }
+
+        const hash = await bcrypt.hash(newPass,10)
+        await User.findByIdAndUpdate(userId,{password:hash})
+
+    }
+    
+    await user.save()
+    res.redirect("/")
+
+   } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal server error")
+    
+   }
+}
+
+const passUpdate = async(req,res)=>{
+    try {
+        const {password,newPass,conPass} = req.body
+        const userId = req.session.user
+        const user =  await User.findById(userId) 
+
+        const isMatch = await bcrypt.compare(password,user.password)
+        if(!isMatch){
+            return res.render("userProfile",{err:"Incorrect password"})
+        }
+        console.log("isMatch",isMatch)
+
+        if(newPass!==conPass){
+            return res.render("userProfile",{err:"Passwords doesn't match"})
+        }
+
+        const hash = await bcrypt.hash(newPass,10)
+        await User.findByIdAndUpdate(userId,{password:hash})
+
+        return res.redirect("/")
+
+    } catch (error) {
+        res.status(500).send("Internal server error")
+    }
+    
+}
+
 
 module.exports={
     loadHomePage,
@@ -388,8 +437,9 @@ module.exports={
     resendOTP,
     login,
     loadLogin,
-    singleProduct   ,
-    loadSamplePage,
+    singleProduct,
     newSingle,
-    // list
+    getUserProfile,
+    userProfile,
+    passUpdate,
 }

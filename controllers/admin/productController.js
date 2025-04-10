@@ -22,7 +22,6 @@ const productList = async (req, res) => {
             // .limit(limit*1)
             // .skip((page-1)*limit)
             .exec()
-        console.log("hi", data)
         const count = await Product.find({
 
             isAdmin: false,
@@ -46,10 +45,6 @@ const getAddProduct = async (req, res) => {
     try {
 
         const cat = await Category.find({ isListed: true })        
-
-        // const err = req.session.errMsg
-        // req.session.errMsg = ''
-        // return res.render("addProduct",{mess:err})
 
         const error = req.session.errMsg
         req.session.errMsg = ''
@@ -80,16 +75,12 @@ const AddProduct = async (req, res) => {
         const parsedQuantity = Number(quantity)
 
         if((isNaN(parsedRegularPrice)) || (isNaN(parsedSalePrice)) || (isNaN(parsedQuantity))){
-            // console.log("no data");
             mess="Please enter a number"         
         }
 
         if(message||mess){
             return res.render("addProduct",{message,mess,cat:categories})
         }
-        
-        console.log("Files:", req.files);
-        console.log("Category:", req.body.category);
 
         const findPro = await Product.findOne({ productName })
         if (findPro) {
@@ -107,7 +98,6 @@ const AddProduct = async (req, res) => {
             productName, description, category, regularPrice, salePrice, quantity, productImage: imagePath
         })
 
-        console.log(newProduct);
         await newProduct.save();
         return res.redirect("/admin/products")
 
@@ -149,9 +139,6 @@ const editProduct = async (req, res) => {
             return res.status(404).send("Product not found")
         }
 
-        console.log("proExist",proExist)
-        console.log("removedImages",removedImages)
-
         if (removedImages) {
             if (typeof removedImages === "string") {
                 removedImages = JSON.parse(removedImages); // Convert to array if it's a string
@@ -177,7 +164,6 @@ const editProduct = async (req, res) => {
 
         if(req.files){
             req.files.forEach(file=>imagePath.push(`/uploads/${file.filename}`))
-            console.log("files", req.files)
         }
 
         await Product.findByIdAndUpdate(proId, { productName, description, category, regularPrice, salePrice, quantity, productImage: imagePath})
@@ -193,7 +179,6 @@ const listOrUnlist = async (req, res) => {
     try {
 
         const { proId, status } = req.body
-        console.log(req.body);
 
         const isListed = status == "unlist" ? false : true
 
