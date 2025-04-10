@@ -35,4 +35,22 @@ router.get("/userProfile",userController.getUserProfile)
 router.post("/userProfile/:id",userController.userProfile)
 router.post("/userProfile/:id",upload.single('profileImage'),userController.userProfile)
 
+
+// Route to handle image upload
+router.post('/upload-profile-image', (req, res) => {
+    upload.single('profileImage')(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Call the controller to handle saving the file path in the database
+        userController.updateProfileImage(req, res, req.file.path);
+    });
+});
+
+
 module.exports=router
