@@ -399,6 +399,33 @@ const userProfile = async(req,res)=>{
    }
 }
 
+router.post('/upload-profile-image', (req, res) => {
+    upload.single('profileImage')(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        try {
+            const userId = req.user.id; // Get user ID (replace with your auth logic)
+            const filePath = `/uploads/${req.file.filename}`;
+
+            // Update user profile with the file path
+            await User.findByIdAndUpdate(userId, { profileImage: filePath });
+
+            res.status(200).json({
+                message: 'File uploaded and profile updated successfully!',
+                filePath: filePath,
+            });
+        } catch (error) {
+            res.status(500).json({ error: 'Database update failed' });
+        }
+    });
+});
+
 const passUpdate = async(req,res)=>{
     try {
         const {password,newPass,conPass} = req.body
