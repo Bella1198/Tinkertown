@@ -37,7 +37,7 @@ const userSchema = new Schema({
         default:false
     },
     profileImage:{
-        type:[String]
+        type: String, default: ''
     }
     // cart:[{
     //     type: Schema.Types.ObjectId,
