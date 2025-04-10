@@ -96,15 +96,20 @@
 
 
                                         <aside class="col-lg-4">
-                                            <figure class="text-lg-center">
-                                                <img id="image-preview-container" class="img-lg mb-3 img-avatar" src="/evara-backend/assets/imgs/people/avatar1.jpg" alt="User Photo">
-                                                <figcaption>
-                                                    <a id="addImageBtn" class="btn btn-light rounded font-md" href="#">
-                                                        <i class="icons material-icons md-backup font-md"></i> Upload
-                                                    </a>
-                                                </figcaption>
-                                            </figure>
-                                        </aside> 
+    <figure class="text-lg-center">
+        <img id="image-preview-container" class="img-lg mb-3 img-avatar" src="/evara-backend/assets/imgs/people/avatar1.jpg" alt="User Photo">
+        <figcaption>
+            <!-- Profile Image Upload Form -->
+            <form action="/api/upload-profile-image" method="POST" enctype="multipart/form-data">
+                <label for="profileImage">Choose Profile Image:</label>
+                <input type="file" name="profileImage" id="profileImage" accept="image/*" required />
+                <button type="submit" class="btn btn-light rounded font-md">
+                    <i class="icons material-icons md-backup font-md"></i> Upload
+                </button>
+            </form>
+        </figcaption>
+    </figure>
+</aside>
 
                                     </div> <!-- row.// -->
                                     <button class="btn btn-primary" type="submit">Save changes</button>
