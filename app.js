@@ -8,7 +8,6 @@ const passport= require("./config/passport")
 const db = require("./config/db")
 const userRouter=require("./routes/userRouter")
 const adminRouter= require("./routes/adminRouter")
-const uploadRoute = require('./routes/uploadRoute');
 db()
 
 app.use(express.urlencoded({extended:true}))
